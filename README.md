@@ -11,7 +11,7 @@ Simple sockjs server for django.
 
 ## Installation:
 ```
-pip install django-sockjs-server
+pip install git+https://github.com/knyazz/django-sockjs-server
 ```
 
 Add django-sockjs-server to your INSTALLED_APPS in settings.py
@@ -27,40 +27,44 @@ Add django-sockjs-server to your INSTALLED_APPS in settings.py
 Define ```DJANGO_SOCKJS_SERVER``` in ```settings.py```.
 
 ```
-  DJANGO_SOCKJS_SERVER = {
-      'rabbitmq_server_host': 'localhost',
-      'rabbitmq_user': 'guest',
-      'rabbitmq_password': 'guest',
-      'rabbitmq_server_port': 5672,
-      'rabbitmq_server_vhost': '/',
-      'rabbitmq_exchange_name': 'sockjs',
-      'rabbitmq_queue_name': 'ws01',
-      'rabbitmq_exchange_type': 'direct',
-      'redis_host': 'localhost',
-      'redis_port':  '6379',
-      'redis_db': 0,
-      'listen_addr': '0.0.0.0',
-      'listen_port': 8083,
-      'listen_location': '/ws'
-      'secret_key': 'xe4pa7gysp4phe2rhyd',
-      'sockjs_url': ['http://localhost:8083/ws']
-  }
+DJANGO_SOCKJS_SERVER = {
+    'RABBIT_SERVER': {
+        'host': 'localhost',
+        'user': 'guest',
+        'password': 'guest',
+        'port': 5672,
+        'vhost': '/',
+        'exchange_name': 'sockjs',
+        'queue_name': 'ws01',
+        'exchange_type': 'direct',
+    },
+    'REDIS_SERVER': {
+        'host': 'localhost',
+        'port': '6379',
+        'db': 0,
+    },
+    'listen_addr': '0.0.0.0',
+    'listen_port': 8083,
+    'listen_location': '/ws'
+    'secret_key': 'xe4pa7gysp4phe2rhyd',
+    'sockjs_url': ['http://localhost:8083/ws']
+}
 ```
-* rabbitmq_server_host - rabbitmq server
-* rabbitmq_user - rabbitmq user
-* rabbitmq_password - rabbitmq password
-* rabbitmq_server_port - rabbitmq port
-* rabbitmq_server_vhost - rabbitmq vhost
-* rabbitmq_exchange_name - exchange name
-* rabbitmq_exchange_type - type exchange
+* RABBIT_SERVER['host'] - rabbitmq server
+* RABBIT_SERVER['user'] - rabbitmq user
+* RABBIT_SERVER['password'] - rabbitmq password
+* RABBIT_SERVER['port'] - rabbitmq port
+* RABBIT_SERVER['vhost'] - rabbitmq vhost
+* RABBIT_SERVER['exchange_name'] - exchange name
+* RABBIT_SERVER['exchange_type'] - type exchange
 * listen_addr - listen sockjs server address
 * listen_port - listen sockjs server port
 * listen_location - listen sockjs server location
 * secret_key - salt for subscribe
 * sockjs_url - path for client sockjs
-* redis_host - redis server host
-* redis_port - redis server port
-* redis_db - redis db
+* REDIS_SERVER.['host'] - redis server host
+* REDIS_SERVER.['port'] - redis server port
+* REDIS_SERVER.['db'] - redis db
 
 
 

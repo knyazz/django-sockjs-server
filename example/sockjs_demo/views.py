@@ -9,8 +9,8 @@ def index(request):
 
     template = "sockjs_demo/index.html"
 
-
     return render_to_response(template, context)
+
 
 def send_test_message(request):
     context = RequestContext(request)

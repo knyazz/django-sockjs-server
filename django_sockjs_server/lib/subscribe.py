@@ -1,11 +1,8 @@
 import json
 import logging
-import time
-import datetime
-import hashlib
-import random
 from django_sockjs_server.lib.token import Token
 from django_sockjs_server.lib.redis_client import redis_client
+
 
 class Subscribe(object):
 

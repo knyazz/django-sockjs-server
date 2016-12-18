@@ -47,6 +47,7 @@ class SockJSConnection(sockjs.tornado.SockJSConnection):
         ).hexdigest()
         return connection_id
 
+
 class StatsHandler(RequestHandler):
 
     def initialize(self, sockjs_server):
@@ -59,27 +60,29 @@ class StatsHandler(RequestHandler):
         self.set_header("Content-Type", "text/plain")
         self.set_status(200)
         if type_stats == 'debug':
-            self.finish("uptime_seconds: " + str(self.sockjs_server.get_uptime()) +
-                        "\n memory_use_byte: " + str(int(self.memory_stats.memory())) +
-                        "\n memory_resident_use_byte: " + str(int(self.memory_stats.resident())) +
-                        "\n memory_stack_size_byte: " + str(int(self.memory_stats.stacksize())) +
-                        "\n last_rabbitmq_reconnect: " + str(self.sockjs_server.get_last_reconnect()) +
-                        "\n connect_rabbitmq_time_seconds: " + str((now() - self.sockjs_server.get_last_reconnect()).seconds) +
-                        "\n event_listeners_count: " + str(self.sockjs_server.get_event_listeners_count()) +
-                        "\n connects: " + str(self.sockjs_server.get_subscribe_connections()) +
-                        "\n redis_connect_tries: %s" % (self.redis.connect_tries) +
-                        "\n redis_uptime_seconds %s" % (self.redis.get_uptime()))
+            self.finish(
+                "uptime_seconds: " + str(self.sockjs_server.get_uptime()) +
+                "\n memory_use_byte: " + str(int(self.memory_stats.memory())) +
+                "\n memory_resident_use_byte: " + str(int(self.memory_stats.resident())) +
+                "\n memory_stack_size_byte: " + str(int(self.memory_stats.stacksize())) +
+                "\n last_rabbitmq_reconnect: " + str(self.sockjs_server.get_last_reconnect()) +
+                "\n connect_rabbitmq_time_seconds: " + str((now() - self.sockjs_server.get_last_reconnect()).seconds) +
+                "\n event_listeners_count: " + str(self.sockjs_server.get_event_listeners_count()) +
+                "\n connects: " + str(self.sockjs_server.get_subscribe_connections()) +
+                "\n redis_connect_tries: %s" % (self.redis.connect_tries) +
+                "\n redis_uptime_seconds %s" % (self.redis.get_uptime()))
         else:
-            self.finish("uptime_seconds: " + str(self.sockjs_server.get_uptime()) +
-                        "\n memory_use_byte: " + str(int(self.memory_stats.memory())) +
-                        "\n memory_resident_use_byte: " + str(int(self.memory_stats.resident())) +
-                        "\n memory_stack_size_byte: " + str(int(self.memory_stats.stacksize())) +
-                        "\n last_rabbitmq_reconnect: " + str(self.sockjs_server.get_last_reconnect()) +
-                        "\n connect_rabbitmq_time_seconds: " + str((now() - self.sockjs_server.get_last_reconnect()).seconds) +
-                        "\n event_listeners_count: " + str(self.sockjs_server.get_event_listeners_count()) +
-                        "\n connects: " + str(len(self.sockjs_server.get_subscribe_connections())) +
-                        "\n redis_connect_tries: %s" % (self.redis.connect_tries) +
-                        "\n redis_uptime_seconds %s" % (self.redis.get_uptime()))
+            self.finish(
+                "uptime_seconds: " + str(self.sockjs_server.get_uptime()) +
+                "\n memory_use_byte: " + str(int(self.memory_stats.memory())) +
+                "\n memory_resident_use_byte: " + str(int(self.memory_stats.resident())) +
+                "\n memory_stack_size_byte: " + str(int(self.memory_stats.stacksize())) +
+                "\n last_rabbitmq_reconnect: " + str(self.sockjs_server.get_last_reconnect()) +
+                "\n connect_rabbitmq_time_seconds: " + str((now() - self.sockjs_server.get_last_reconnect()).seconds) +
+                "\n event_listeners_count: " + str(self.sockjs_server.get_event_listeners_count()) +
+                "\n connects: " + str(len(self.sockjs_server.get_subscribe_connections())) +
+                "\n redis_connect_tries: %s" % (self.redis.connect_tries) +
+                "\n redis_uptime_seconds %s" % (self.redis.get_uptime()))
 
 
 class SockJSRouterPika(sockjs.tornado.SockJSRouter):

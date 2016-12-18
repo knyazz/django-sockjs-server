@@ -6,8 +6,7 @@ class MemoryStats(object):
               'KB': 1024.0, 'MB': 1024.0*1024.0}
 
     def _VmB(self, VmKey):
-        '''Private.
-        '''
+        """Private."""
         # get pseudo file  /proc/<pid>/status
         try:
             t = open(self._proc_status)
@@ -23,18 +22,14 @@ class MemoryStats(object):
             # convert Vm value to bytes
         return float(v[1]) * self._scale[v[2]]
 
-
     def memory(self, since=0.0):
-        '''Return memory usage in bytes.
-        '''
+        """Return memory usage in bytes."""
         return self._VmB('VmSize:') - since
 
     def resident(self, since=0.0):
-        '''Return resident memory usage in bytes.
-        '''
+        """Return resident memory usage in bytes."""
         return self._VmB('VmRSS:') - since
 
     def stacksize(self, since=0.0):
-        '''Return stack size in bytes.
-        '''
+        """Return stack size in bytes."""
         return self._VmB('VmStk:') - since

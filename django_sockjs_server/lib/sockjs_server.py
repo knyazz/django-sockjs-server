@@ -1,7 +1,6 @@
 from collections import defaultdict
 import json
 import logging
-from django.conf import settings
 from django.utils.timezone import now
 import pika
 from pika.adapters.tornado_connection import TornadoConnection
@@ -29,8 +28,6 @@ class SockjsServer(object):
         self.subscription_dict = defaultdict(set)
         self.last_reconnect = now()
         self.uptime_start = now()
-
-
 
         self.config = SockJSServerSettings()
 
@@ -73,9 +70,9 @@ class SockjsServer(object):
         self.channel.exchange_declare(exchange=self.config.rabbitmq_exchange_name,
                                       exchange_type=self.config.rabbitmq_exchange_type)
         self.channel.queue_declare(
-            queue=self.config.rabbitmq_queue_name, 
-            exclusive=False, 
-            auto_delete=True, 
+            queue=self.config.rabbitmq_queue_name,
+            exclusive=False,
+            auto_delete=True,
             callback=self.on_queue_declared
         )
 
@@ -123,9 +120,6 @@ class SockjsServer(object):
         except KeyError:
             pass
 
-
-
-
     def add_subscriber_room(self, room, conn):
         try:
             conn_id = conn.id
@@ -133,9 +127,8 @@ class SockjsServer(object):
             client = self.connection_dict[conn_id]
             self.subscription_dict[conn_id].add(room)
             self.logger.debug('django-sockjs-server(SockjsServer): listener %s add to room %s' % (repr(client), room))
-        except KeyError, exc:
+        except KeyError:
             pass
-
 
     def remove_subscriber(self, conn_id):
         try:
@@ -144,7 +137,7 @@ class SockjsServer(object):
             del self.connection_dict[conn_id]
             self.logger.debug('django-sockjs-server(SockjsServer): listener %s del connection %s' % (repr(client),
                               conn_id))
-        except KeyError, exc:
+        except KeyError:
             pass
 
     def get_event_listeners_count(self):

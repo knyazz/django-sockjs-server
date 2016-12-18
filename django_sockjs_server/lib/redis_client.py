@@ -5,6 +5,7 @@ import logging
 import functools
 from django_sockjs_server.lib.config import SockJSServerSettings
 
+
 def reconnect_wrapper(func):
     @functools.wraps(func)
     def myfunc(self, *args, **kwargs):
@@ -52,7 +53,6 @@ class RedisClient(object):
         else:
             self.logger.info('django-sockjs-server(RedisClient): already connected')
 
-
     def get_real_key(self, key):
         return self.config.redis_prefix + key
 
@@ -60,12 +60,12 @@ class RedisClient(object):
         formatters = "%s " * len(args)
         format_string = "django-sockjs-server(RedisClient): " + formatters
         self.logger.debug(format_string % args)
-        
+
     @reconnect_wrapper
     def lpush(self, key, *args, **kwargs):
         self.log('lpush', key, args, kwargs)
         return self.redis.lpush(self.get_real_key(key), *args, **kwargs)
-        
+
     @reconnect_wrapper
     def lrange(self, key, *args, **kwargs):
         self.log('lrange', key, args, kwargs)
@@ -75,6 +75,4 @@ class RedisClient(object):
     def lrem(self, key, num, value):
         self.log('lrem', key, num, value)
         return self.redis.lrem(self.get_real_key(key), num, value)
-
-
 redis_client = RedisClient()

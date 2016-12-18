@@ -1,6 +1,7 @@
 from hashlib import md5
 from django_sockjs_server.lib.config import SockJSServerSettings
 
+
 class Token(object):
     def __init__(self):
         self.config = SockJSServerSettings()
