@@ -5,12 +5,13 @@ from django_sockjs_server.lib.token import Token
 
 register = template.Library()
 
+
 @register.simple_tag(name='sockjs_auth_token')
 def sockjs_auth_token(room_name, unq_id=None):
     token = Token()
     if unq_id:
         return token.get_secret_data(str(room_name)+str(unq_id))
-    return token.get_secret_data(room_name)
+    return token.get_secret_data(str(room_name))
 
 
 @register.simple_tag(name='sockjs_server_url')
