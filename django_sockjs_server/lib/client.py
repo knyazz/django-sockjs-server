@@ -1,4 +1,3 @@
-import redis
 import logging
 import time
 import json
@@ -27,9 +26,9 @@ class SockJsServerClient(object):
         )
         self.connection = pika.BlockingConnection(param)
         self.channel = self.connection.channel()
-        self.channel.exchange_declare(exchange=self.config.rabbitmq_exchange_name,
-                                      exchange_type=self.config.rabbitmq_exchange_type)
-
+        self.channel.exchange_declare(
+            exchange=self.config.rabbitmq_exchange_name,
+            exchange_type=self.config.rabbitmq_exchange_type)
 
         self.connected = True
         if not is_retry:
@@ -53,7 +52,6 @@ class SockJsServerClient(object):
                 body=json.dumps(submessage, cls=DjangoJSONEncoder)
             )
 
-
     def publish_message(self, message, is_retry=False):
         try:
             if not self.connected:
@@ -64,9 +62,10 @@ class SockJsServerClient(object):
                 self.publish_message_old(message)
             else:
                 routing_key = message['host']
-                self.channel.basic_publish(self.config.rabbitmq_exchange_name,
-                                           routing_key=routing_key,
-                                           body=json.dumps(message, cls=DjangoJSONEncoder))
+                self.channel.basic_publish(
+                    self.config.rabbitmq_exchange_name,
+                    routing_key=routing_key,
+                    body=json.dumps(message, cls=DjangoJSONEncoder))
         except (ChannelClosed, AMQPConnectionError):
             if self.connected:
                 self._disconnect()
@@ -76,11 +75,10 @@ class SockJsServerClient(object):
                 time.sleep(100 / 1000000.0)
                 self.publish_message(message, True)
 
-
     def get_connections(self, room):
         if not self.connected:
             self._connect()
-            parsed_connections = []
+            #parsed_connections = []
         connections = self.redis.lrange(room, 0, -1)
         res = []
         for i in connections:

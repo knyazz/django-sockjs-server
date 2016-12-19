@@ -9,7 +9,7 @@ register = template.Library()
 def sockjs_auth_token(room_name, unq_id=None):
     token = Token()
     if unq_id:
-        return token.get_secret_data(room_name+str(unq_id))
+        return token.get_secret_data(str(room_name)+str(unq_id))
     return token.get_secret_data(room_name)
 
 
