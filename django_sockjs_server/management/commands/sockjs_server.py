@@ -17,12 +17,13 @@ class Command(BaseCommand):
             SockJSConnection,
             self.config.listen_location,
             user_settings=self.config.router_settings)
-        app = tornado.web.Application([(r"/stats/(.*)", StatsHandler, dict(sockjs_server=router._connection.sockjs_server))] +
-                                      router.urls)
-
+        app = tornado.web.Application(
+            [
+                (r"/stats/(.*)", StatsHandler, dict(sockjs_server=router._connection.sockjs_server))
+            ] + router.urls)
 
         app.listen(
-            self.config.listen_port, 
+            self.config.listen_port,
             address=self.config.listen_addr
         )
         try:

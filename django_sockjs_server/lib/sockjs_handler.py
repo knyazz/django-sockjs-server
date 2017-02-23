@@ -1,7 +1,9 @@
-import hashlib
 import datetime
+import hashlib
+import json
 import time
 import logging
+
 from django.utils.timezone import now
 import sockjs.tornado
 from tornado.web import RequestHandler
@@ -71,6 +73,15 @@ class StatsHandler(RequestHandler):
                 "\n connects: " + str(self.sockjs_server.get_subscribe_connections()) +
                 "\n redis_connect_tries: %s" % (self.redis.connect_tries) +
                 "\n redis_uptime_seconds %s" % (self.redis.get_uptime()))
+        elif type_stats == 'advanced':
+            self.set_header("Content-Type", "application/json")
+            _data = dict(
+                uptime=str(self.sockjs_server.get_uptime()),
+                event_listeners_count=str(self.sockjs_server.get_event_listeners_count()),
+                connects=self.sockjs_server.get_subscribe_connections(),
+                connection_dict=self.sockjs_server.connection_dict
+            )
+            self.finish(json.dumps(_data))
         else:
             self.finish(
                 "uptime_seconds: " + str(self.sockjs_server.get_uptime()) +
